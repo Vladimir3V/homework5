@@ -12,12 +12,14 @@ class ControllerMain
 
     public function showMain()
     {
-        include_once 'view/main.php';
+        include_once '../view/main.php';
     }
 
     public function addAvatar()
     {
-        $a = new User();
+        $a = new User();//так как ты везде создаешь экземпляр User
+        //можешь его проинициализивароть в конструкторе и записать в свойстве
+        //тем самым избавив себя от дублирования кода
         if ($a->addAvatar()) {
             $this->showMain();
         }

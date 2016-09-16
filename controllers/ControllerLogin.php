@@ -8,7 +8,7 @@
  */
 class ControllerLogin
 {
-    public function checkUser() {
+    public function checkUser() {//psr-2
         $a = new User();
         if ($a->checkLoginPassword()) {
             $this->showMain();

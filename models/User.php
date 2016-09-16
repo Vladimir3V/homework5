@@ -131,7 +131,7 @@ class User
         $posst  = '';
         $userid = '';
         if (isset($posst)) {
-            $db = new mysqli(
+            $db = new mysqli(//параметры должны быть в отдельном конфиге
                 'localhost', 'root', 'root', 'users'
             );
             if ($db->connect_errno) {
@@ -368,7 +368,7 @@ class User
             }
         }
 
-    }
+    }//psr-2
 
     /**
      * Добавить аватарку
@@ -376,8 +376,8 @@ class User
      */
     public function addAvatar()
     {
-        if (file_exists('./img/avatars') == false) {
-            mkdir('./img/avatars', 0777);
+        if (file_exists('/img/avatars') === false) {//строгое сравнение
+            mkdir('/img/avatars');//здесь не создается папка
         }
 
         $img         = $_FILES;
@@ -388,9 +388,9 @@ class User
         $imageType   = pathinfo($target_file, PATHINFO_EXTENSION);
         $id          = $_SESSION ['id'];
         if ($target_file == $target_dir) {
-            echo "Вы не выбрали файл ";
+            echo "Вы не выбрали файл ";//двойные кавычки
         } else {
-            $check = getimagesize($img["img"]["tmp_name"]);
+            $check = getimagesize($img["img"]["tmp_name"]);//двойные кавычки
             if ($check !== false) {
             } else {
                 echo "Это не картинка ";

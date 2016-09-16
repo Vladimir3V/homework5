@@ -32,7 +32,7 @@ class Route
         $controller_name = 'Controller'.$controller_name;
 
         $model_path = "models/User.php";
-        include_once $model_path;
+        include_once $model_path;//psr-2 можно сделать через autoload
 
 
         $controller_file = $controller_name.'.php';
@@ -53,7 +53,7 @@ class Route
         }
     }
 
-    static function errorPage404()
+    static function errorPage404()//psr-2
     {
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('Location:'.$host.'view/404.html');

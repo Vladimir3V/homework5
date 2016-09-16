@@ -10,13 +10,13 @@ class Connection
 {
     public $host = "localhost";
     public $user = "root";
-    public $password = "root";
+    public $password = "";
     public $dbace = "users";
 
     /**
      * Создает подключение к базе данных
      */
-    function connect()
+    function connect()//psr-2
     {
         $db = new mysqli(
             $this->host,
