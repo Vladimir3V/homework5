@@ -8,20 +8,28 @@
  */
 class ControllerRegister
 {
+    public $user;
+    public $toview;
+
+    function __construct()
+    {
+        $this->user   = new User();
+        $this->toview = new ToView();
+    }
+
     public function showRegister()
     {
         if (isset($_SESSION['id'])) {
             $this->showMain();
         } else {
-            include_once 'view/register.html';
+            $this->toview->pRegister();
         }
 
     }
 
     public function checkPassword()
     {
-        $a = new User;
-        if ($a->addLoginPassword()) {
+        if ($this->user->addLoginPassword()) {
             $this->showMain();
         } else {
             $this->showRegister();
@@ -30,6 +38,6 @@ class ControllerRegister
 
     public function showMain()
     {
-        include_once 'view/main.php';
+        $this->toview->pMain();
     }
 }

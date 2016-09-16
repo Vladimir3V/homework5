@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: vladimirvahrusev
@@ -10,7 +9,8 @@ class Controller404
 {
     public function show404()
     {
-        include_once 'view/404.html';
+        $er404 = new ToView();
+        $er404->p404();
     }
 
 

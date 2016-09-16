@@ -8,9 +8,18 @@
  */
 class ControllerLogin
 {
-    public function checkUser() {//psr-2
-        $a = new User();
-        if ($a->checkLoginPassword()) {
+    public $user;
+    public $toview;
+
+    function __construct()
+    {
+        $this->user   = new User();
+        $this->toview = new ToView();
+    }
+
+    public function checkUser()
+    {
+        if ($this->user->checkLoginPassword()) {
             $this->showMain();
         } else {
             $this->showLogin();
@@ -18,18 +27,21 @@ class ControllerLogin
     }
     public function showLogin()
     {
-        include_once 'view/login.html';
+        if (isset($_SESSION['id'])) {
+            $this->showMain();
+        } else {
+            $this->toview->pLogin();
+        }
     }
 
     public function showMain()
     {
-        include_once 'view/main.php';
+        $this->toview->pMain();
     }
 
     public function logout()
     {
-        $a = new User();
-        if ($a->logoutUser()) {
+        if ($this->user->logoutUser()) {
             $this->showLogin();
         }
     }

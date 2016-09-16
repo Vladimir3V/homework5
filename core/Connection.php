@@ -8,10 +8,10 @@
  */
 class Connection
 {
-    public $host = "localhost";
-    public $user = "root";
-    public $password = "";
-    public $dbace = "users";
+    public $host = 'localhost';
+    public $user = 'root';
+    public $password = 'root';
+    public $dbace = 'users';
 
     /**
      * Создает подключение к базе данных
@@ -24,12 +24,12 @@ class Connection
             $this->password,
             $this->dbace
         );
-        if (!$db->set_charset("utf8")) {
-            printf("Ошибка при загрузке набора символов utf8: %s\n", $db->error);
+        if (!$db->set_charset('utf8')) {
+            print_r('Ошибка при загрузке набора символов utf8: %s\n', $db->error);
         }
 
         if ($db->connect_errno) {
-            exit("ошибка подключения");
+            exit('ошибка подключения');
         }
         return $db;
     }

@@ -1,6 +1,5 @@
 <?php
-require 'vendor/autoload.php';
-include_once 'core/Connection.php';
+require_once 'vendor/autoload.php';
 use Intervention\Image\ImageManagerStatic as Imageres;
 /**
  * Created by PhpStorm.
@@ -10,16 +9,6 @@ use Intervention\Image\ImageManagerStatic as Imageres;
  */
 class User
 {
-//    public $host = "host";
-//    public $login = "login";
-//    public $password = "password";
-//    public $db_name = "database";
-//    public $user_login     = 'login';
-//    public $user_password  = 'password';
-//    public $user_password2 = 'password2';
-//    public $user_name      = 'name';
-//    public $user_age       = 'age';
-//    public $user_about     = 'about';
 
     /**
      * Удаляет сессию
@@ -54,7 +43,7 @@ class User
     {
         $mysqli = new mysqli($this->db_host, $this->db_login, $this->db_pass);
         if ($mysqli->connect_errno) {
-            exit("Не удалось подключиться к MySQL: " . $mysqli->connect_error);
+            exit('Не удалось подключиться к MySQL: ' . $mysqli->connect_error);
         } else {
             $db = new mysqli(
                 $this->db_host,
@@ -63,7 +52,7 @@ class User
                 $this->db_name
             );
             if ($db->connect_errno) {
-                $mysqli->query("CREATE DATABASE IF NOT EXISTS $this->db_name");
+                $mysqli->query('CREATE DATABASE IF NOT EXISTS $this->db_name');
                 $mysqli->select_db($this->db_name);
                 $mysqli->query(
                     "CREATE TABLE users (
@@ -99,8 +88,8 @@ class User
     {
         $a = new Connection();
         $db = new mysqli($a->host, $a->user, $a->password, $a->dbace);
-        if (!$db->set_charset("utf8")) {
-            printf("Ошибка при загрузке набора символов utf8: %s\n", $db->error);
+        if (!$db->set_charset('utf8')) {
+            printf('Ошибка при загрузке набора символов utf8: %s\n', $db->error);
         }
 
         if ($db->connect_errno) {
@@ -124,31 +113,6 @@ class User
     }
 
     /**
-     * Функция удаляет Юзера
-     */
-    public function delUser()
-    {
-        $posst  = '';
-        $userid = '';
-        if (isset($posst)) {
-            $db = new mysqli(//параметры должны быть в отдельном конфиге
-                'localhost', 'root', 'root', 'users'
-            );
-            if ($db->connect_errno) {
-                echo "ошибка подключения к БР";
-
-            }
-            $db->query("DELETE FROM `users` WHERE 'id' = $userid");
-            unset($_SESSION["id"]);
-            session_destroy();
-            echo '<script type="text/javascript">
-              window.location = "index.html"
-              </script>';
-
-        }
-
-    }
-    /**
      * Function adds lofin and password from registration form
      */
     public function addLoginPassword()
@@ -160,7 +124,7 @@ class User
         if ($user_password == $user_password2) {
             if (isset($user_login) || isset($user_password)) {
                 if (empty($user_login) || empty($user_password)) {
-                    echo "Данные введены неверно";
+                    echo 'Данные введены неверно';
                     return false;
                 } else {
                     $user_login= strip_tags($user_login);
@@ -172,7 +136,7 @@ class User
                     );
                     $record = $result->fetch_assoc();
                     if (!empty($record)) {
-                        echo "Такой пользователь уже существует";
+                        echo 'Такой пользователь уже существует';
                         return false;
                     } else {
                         $a->connect()->query(
@@ -206,7 +170,7 @@ class User
         $id  = $_SESSION['id'];
 
         if (empty($_POST['Username']) || empty($_POST['Password'])) {
-            echo "Логин и пароль не могут быть пустыми";
+            echo 'Логин и пароль не могут быть пустыми';
         } else {
             $arr['username'] = strip_tags($_POST['Username']);
             $arr['password'] = strip_tags($_POST['Password']);
@@ -215,15 +179,15 @@ class User
             $arr['about']    = strip_tags($_POST['About']);
             $a = new Connection();
             $db = new mysqli($a->host, $a->user, $a->password, $a->dbace);
-            if (!$db->set_charset("utf8")) {
+            if (!$db->set_charset('utf8')) {
                 printf(
-                    "Ошибка при загрузке набора символов utf8: %s\n",
+                    'Ошибка при загрузке набора символов utf8: %s\n',
                     $db->error
                 );
             }
 
             if ($db->connect_errno) {
-                echo "ошибка подключения к БР";
+                echo 'ошибка подключения к БР';
             } else {
                 $sql = " UPDATE users
                           SET username = ?, 
@@ -259,7 +223,7 @@ class User
         $this->dbChekMake();
         if (isset($_POST['usernameLogin']) || isset($_POST['passwordLogin'])) {
             if (empty($_POST['usernameLogin']) || empty($_POST['passwordLogin'])) {
-                echo "Проерьте ведденые данные или пройдите регистрацию";
+                echo 'Проерьте ведденые данные или пройдите регистрацию';
             } else {
                 $user_login    = $_POST['usernameLogin'];
                 $user_password = $_POST['passwordLogin'];
@@ -292,24 +256,25 @@ class User
      */
     public function addPicture()
     {
-        if (file_exists('./img/photos') == false) {
+        if (file_exists('./img/photos') === false) {
+            mkdir('./img', 0777);
             mkdir('./img/photos', 0777);
         }
 
         $id = $_SESSION['id'];
 
         $img = $_FILES;
-        $target_dir = "img/photos/";
-        $target_file = $target_dir . basename($img["img"]["name"]);
+        $target_dir = 'img/photos/';
+        $target_file = $target_dir . basename($img['img']['name']);
         $status = true;
         $imageType = pathinfo($target_file, PATHINFO_EXTENSION);
         if ($target_file == $target_dir) {
-            echo "Вы не выбрали файл ";
+            echo 'Вы не выбрали файл ';
         } else {
-            $check = getimagesize($img["img"]["tmp_name"]);
+            $check = getimagesize($img['img']['tmp_name']);
             if ($check !== false) {
             } else {
-                echo "Это не картинка ";
+                echo 'Это не картинка ';
                 $status = false;
             }
             if (file_exists($target_file)) {
@@ -321,6 +286,7 @@ class User
                 && $imageType != "png"
                 && $imageType != "jpeg"
                 && $imageType != "gif"
+                && $imageType != "JPG"
             ) {
                 echo "Вы можете загрузить только картинки <br> ";
                 $status = false;
@@ -328,7 +294,7 @@ class User
 
             if ($status) {
                 if (move_uploaded_file(
-                    $img["img"]["tmp_name"],
+                    $img['img']['tmp_name'],
                     $target_file
                 )
                 ) {
@@ -337,7 +303,7 @@ class User
 
                     echo
                         "Файл "
-                        . basename($img["img"]["name"])
+                        . basename($img['img']['name'])
                         . " был загружен <br><br>";
 
                     $a = new Connection();
@@ -367,8 +333,7 @@ class User
                 }
             }
         }
-
-    }//psr-2
+    }
 
     /**
      * Добавить аватарку
@@ -377,42 +342,45 @@ class User
     public function addAvatar()
     {
         if (file_exists('/img/avatars') === false) {//строгое сравнение
-            mkdir('/img/avatars');//здесь не создается папка
+            mkdir('./img', 0777);
+            mkdir('./img/avatars', 0777);
+            //здесь не создается папка - поправил
         }
 
         $img         = $_FILES;
-        $target_dir  = "img/avatars/";
-        $filename    = basename($img["img"]["name"]);
+        $target_dir  = 'img/avatars/';
+        $filename    = basename($img['img']['name']);
         $target_file = $target_dir . $filename;
         $status      = true;
         $imageType   = pathinfo($target_file, PATHINFO_EXTENSION);
         $id          = $_SESSION ['id'];
         if ($target_file == $target_dir) {
-            echo "Вы не выбрали файл ";//двойные кавычки
+            echo 'Вы не выбрали файл ';//двойные кавычки - поправил
         } else {
-            $check = getimagesize($img["img"]["tmp_name"]);//двойные кавычки
+            $check = getimagesize($img['img']['tmp_name']);//двойные кавычки - поправил
             if ($check !== false) {
             } else {
-                echo "Это не картинка ";
+                echo 'Это не картинка';
                 $status = false;
             }
             if (file_exists($target_file)) {
-                echo "Такой файл уже есть <br><br>";
+                echo 'Такой файл уже есть <br><br>';
                 $status = false;
             }
 
-            if ($imageType != "jpg"
-                && $imageType != "png"
-                && $imageType != "jpeg"
-                && $imageType != "gif"
+            if ($imageType != 'jpg'
+                && $imageType != 'png'
+                && $imageType != 'jpeg'
+                && $imageType != 'gif'
+                && $imageType != 'JPG'
             ) {
-                echo "Вы можете загрузить только картинки <br> ";
+                echo 'Вы можете загрузить только картинки <br> ';
                 $status = false;
             }
 
             if ($status) {
                 if (move_uploaded_file(
-                    $img["img"]["tmp_name"],
+                    $img['img']['tmp_name'],
                     $target_file
                 )
                 ) {
@@ -420,9 +388,9 @@ class User
                         ->resize(200, 200)->save($target_file);
 
                     echo
-                        "Файл "
-                        . basename($img["img"]["name"])
-                        . " был загружен <br><br>";
+                        'Файл '
+                        . basename($img['img']['name'])
+                        . ' был загружен <br><br>';
 
                     $a = new Connection();
                     $db = new mysqli(
@@ -432,18 +400,18 @@ class User
                         $a->dbace
                     );
                     if ($db->connect_errno) {
-                        exit("ошибка подключения к БД, повторите запрос");
+                        exit('ошибка подключения к БД, повторите запрос');
                     }
-                    if (!$db->set_charset("utf8")) {
+                    if (!$db->set_charset('utf8')) {
                         printf(
-                            "Ошибка при загрузке набора символов utf8: %s\n",
+                            'Ошибка при загрузке набора символов utf8: %s\n',
                             $db->error
                         );
                     }
 
-                    $sql = " UPDATE users
+                    $sql = 'UPDATE users
                           SET avatar = ?
-                          WHERE id = ?";
+                          WHERE id = ?';
                     if ($stmt = $db->prepare($sql)) {
                         $stmt->bind_param(
                             'si',
@@ -531,7 +499,7 @@ class User
         $userid = $_SESSION ['id'];
         $a = new Connection();
         $a->connect()->query("DELETE FROM `users` WHERE 'id' = $userid");
-        unset($_SESSION["id"]);
+        unset($_SESSION['id']);
         session_destroy();
         return true;
 

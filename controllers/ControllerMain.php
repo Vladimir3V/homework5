@@ -8,60 +8,63 @@
  */
 class ControllerMain
 {
+    public $user;
+    public $toview;
+
+    function __construct()
+    {
+        $this->user   = new User();
+        $this->toview = new ToView();
+    }
 
 
     public function showMain()
     {
-        include_once '../view/main.php';
+        $this->toview->pMain();
     }
 
     public function addAvatar()
     {
-        $a = new User();//так как ты везде создаешь экземпляр User
+        //так как ты везде создаешь экземпляр User
         //можешь его проинициализивароть в конструкторе и записать в свойстве
-        //тем самым избавив себя от дублирования кода
-        if ($a->addAvatar()) {
+        //тем самым избавив себя от дублирования кода -- Понял, поправил
+        if ($this->user->addAvatar()) {
             $this->showMain();
         }
     }
 
     public function addPicture()
     {
-        $a = new User();
-        if ($a->addPicture()) {
+        if ($this->user->addPicture()) {
             $this->showMain();
         }
     }
 
     public function addUserInfo()
     {
-        $a = new User();
-        if ($a->addNameAgeAbout()) {
+        if ($this->user->addNameAgeAbout()) {
             $this->showMain();
         }
     }
 
     public function getPhotoList()
     {
-        $a = new User();
-        if ($a->getAllPhoto()) {
+        if ($this->user->getAllPhoto()) {
             $this->showMain();
         }
     }
 
     public function getUserList()
     {
-        $a = new User();
-        if ($a->getAllUser()) {
+        if ($this->user->getAllUser()) {
             $this->showMain();
         }
     }
 
     public function delUser()
     {
-        $a = new User();
-        if ($a->deletUser()) {
-            include_once 'view/login.html';
+        if ($this->user->deletUser()) {
+            $this->toview->pLogin();
         }
     }
 

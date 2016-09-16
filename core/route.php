@@ -10,7 +10,6 @@ class Route
 {
     static function start()
     {
-
         // контроллер и действие по дефолту
         $controller_name = 'Login';
         $action_name = 'showLogin';
@@ -28,11 +27,11 @@ class Route
             $action_name = $routes[2];
         }
 
-
         $controller_name = 'Controller'.$controller_name;
 
-        $model_path = "models/User.php";
-        include_once $model_path;//psr-2 можно сделать через autoload
+        require_once 'vendor/autoload.php';
+        //psr-2 можно сделать через autoload
+        // К сожалению не нашел что psr-2 говорит про require_once
 
 
         $controller_file = $controller_name.'.php';
@@ -53,7 +52,7 @@ class Route
         }
     }
 
-    static function errorPage404()//psr-2
+    static function errorPage404()//psr-2 -- не могу понять в чем ошибка
     {
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('Location:'.$host.'view/404.html');
