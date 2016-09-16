@@ -16,7 +16,7 @@ class Connection
     /**
      * Создает подключение к базе данных
      */
-    function connect()//psr-2
+    function connect()//psr-2 - к сожалению не могу понять в чем ошибка
     {
         $db = new mysqli(
             $this->host,
