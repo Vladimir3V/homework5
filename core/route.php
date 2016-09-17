@@ -29,7 +29,8 @@ class Route
 
         $controller_name = 'Controller'.$controller_name;
 
-        require_once 'vendor/autoload.php';
+        require_once 'models/User.php';
+        require_once 'core/ToView.php';
         //psr-2 можно сделать через autoload
         // К сожалению не нашел что psr-2 говорит про require_once
 
